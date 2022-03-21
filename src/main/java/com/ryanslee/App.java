@@ -94,15 +94,16 @@ public class App {
      * Subprocess that opens a client, allows for interaction, and closes it.
      */
     static void clientProcess() {
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             System.out.print("Enter server address: ");
             String host = reader.readLine();
             System.out.print("Enter server port: ");
             Integer port = Integer.parseInt(reader.readLine());
-            reader.close();
             Client client = new Client(host, port);
-            client.runClient();
+            int exit = client.runClient();
+            if (exit == 1) {
+                System.out.println("\nClient closed unexpectedly");
+            }
             client.close();
         } catch (UnknownHostException e) {
             System.out.println("Could not identify host.");

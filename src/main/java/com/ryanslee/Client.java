@@ -77,6 +77,7 @@ public class Client implements Closeable {
                 }
             }
         } catch (IOException e) {
+            e.printStackTrace();
             return 1;
         }
         return 0;
